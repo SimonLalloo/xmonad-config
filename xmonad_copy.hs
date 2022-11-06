@@ -107,7 +107,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     --- Keyboard layout ---
     , ((modm,               xK_o     ), spawn "setxkbmap us")
     , ((modm .|. shiftMask, xK_o     ), spawn "setxkbmap se")
-    
+
     --- Focus ---
     -- Move focus to the next window
     , ((modm,               xK_Tab   ), windows W.focusDown)
@@ -133,7 +133,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_n     ), refresh)
 
     -- Toggle the status bar
-    -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
+    , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
     -- Lock screen 
     , ((modm .|. shiftMask, xK_l) , spawn "xscreensaver-command -lock")
