@@ -105,8 +105,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
 
     --- Keyboard layout ---
-    , ((modm,               xK_o     ), spawn "setxkbmap us")
-    , ((modm .|. shiftMask, xK_o     ), spawn "setxkbmap se")
+    , ((modm,               xK_o     ), spawn "setxkbmap us && setxkbmap -option ctrl:nocaps")
+    , ((modm .|. shiftMask, xK_o     ), spawn "setxkbmap se && setxkbmap -option ctrl:nocaps")
+    -- Bind caps to ctrl with setxkbmap -option ctrl:nocaps
     
     --- Focus ---
     -- Move focus to the next window
@@ -136,7 +137,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
     -- Lock screen 
-    , ((modm .|. shiftMask, xK_l) , spawn "xscreensaver-command -lock")
+    --, ((modm .|. shiftMask, xK_l) , spawn "xscreensaver-command -lock")
+    , ((modm .|. shiftMask, xK_l) , spawn "sytemctl suspend")
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
     -- Restart xmonad
@@ -238,12 +240,12 @@ myLayoutHook = avoidStruts
                $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
     where
         myDefaultLayout = withBorder myBorderWidth
-                                                 grid
+                                                 tabs
 --                                           ||| tall
 --                                           ||| noBorders monocle
 --                                           ||| floats
                                              ||| spirals
-                                             ||| tabs
+                                             ||| grid
 
 ------------------------------------------------------------------------
 -- Window rules:
@@ -257,6 +259,7 @@ myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
     , className =? "Meld"           --> doShift ( myWorkspaces !! 8 )
+    , className =? "emacs"           --> doShift ( myWorkspaces !! 3 )
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
 
@@ -290,6 +293,8 @@ myStartupHook = do
     spawnOnce "nitrogen --restore &"
     spawnOnce "picom &"
     spawnOnce "xscreensaver &"
+    spawnOnce "setxkbmap -option ctrl:nocaps"
+    -- spawnOnce "usr/bin/emacs --daemon &"
 
 ------------------------------------------------------------------------
 
