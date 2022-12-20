@@ -137,8 +137,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
     -- Lock screen 
-    --, ((modm .|. shiftMask, xK_l) , spawn "xscreensaver-command -lock")
-    , ((modm .|. shiftMask, xK_l) , spawn "sytemctl suspend")
+    , ((modm .|. shiftMask, xK_l) , spawn "xscreensaver-command -lock")
+    --, ((modm .|. shiftMask, xK_l) , spawn "sytemctl suspend")
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
     -- Restart xmonad
@@ -196,38 +196,45 @@ myTabTheme = def { fontName            = myFont
                  , inactiveTextColor   = color16
                  }
 
--- tall     = renamed [Replace "tall"]
---            $ limitWindows 5
---            $ smartBorders
---            $ windowNavigation
---            $ addTabs shrinkText myTabTheme
---            $ subLayout [] (smartBorders Simplest)
---            $ Full
+tall     = renamed [Replace "tall"]
+           $ limitWindows 5
+           $ smartBorders
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           -- $ mySpacing 8
+           $ ResizableTall 1 (3/100) (1/2) []
 -- monocle  = renamed [Replace "monocle"]
 --            $ smartBorders
 --            $ windowNavigation
 --            $ addTabs shrinkText myTabTheme
 --            $ subLayout [] (smartBorders Simplest)
 --            $ Full
--- floats   = renamed [Replace "floats"]
---            $ smartBorders
---            $ simplestFloat
-grid     = renamed [Replace "grid"]
-           $ limitWindows 9
+monocle  = renamed [Replace "monocle"]
            $ smartBorders
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
-           $ mySpacing 8
-           $ mkToggle (single MIRROR)
-           $ Grid (16/10)
+           $ Full
+-- floats   = renamed [Replace "floats"]
+--            $ smartBorders
+--            $ simplestFloat
+-- grid     = renamed [Replace "grid"]
+--            $ limitWindows 9
+--            $ smartBorders
+--            $ windowNavigation
+--            $ addTabs shrinkText myTabTheme
+--            $ subLayout [] (smartBorders Simplest)
+--            -- $ mySpacing 8
+--            $ mkToggle (single MIRROR)
+--            $ Grid (16/10)
 spirals  = renamed [Replace "spirals"]
            $ limitWindows 9
            $ smartBorders
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
-           $ mySpacing 8
+           -- $ mySpacing 8
            $ spiral (6/7)
 tabs     = renamed [Replace "tabs"]
            $ tabbed shrinkText myTabTheme
@@ -240,12 +247,12 @@ myLayoutHook = avoidStruts
                $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
     where
         myDefaultLayout = withBorder myBorderWidth
-                                                 tabs
---                                           ||| tall
---                                           ||| noBorders monocle
+                                                 tall
+                                             ||| tabs
+                                             ||| noBorders monocle
 --                                           ||| floats
                                              ||| spirals
-                                             ||| grid
+                                             -- ||| grid
 
 ------------------------------------------------------------------------
 -- Window rules:
