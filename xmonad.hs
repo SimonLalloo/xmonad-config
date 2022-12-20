@@ -85,6 +85,7 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 
 
 ------------------------------------------------------------------------
+    
 -- Key bindings. Add, modify or remove key bindings here.
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
@@ -147,6 +148,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Display brightness & media keys
     , ((0, xF86XK_MonBrightnessUp), spawn "lux -a 10%")
     , ((0, xF86XK_MonBrightnessDown), spawn "lux -s 10%")
+
+    -- Audio controls
+    , ((0, xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ -10%")
+    , ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ +10%")
+    , ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")   
     ]
     ++
 
